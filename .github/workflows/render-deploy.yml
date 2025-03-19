@@ -1,0 +1,20 @@
+# I WANT to create a GitHub Action that will run when the code is merged to main and automatically deploys to Render
+
+name: Render Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  render-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy to Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl -X POST $RENDER_DEPLOY_HOOK_URL

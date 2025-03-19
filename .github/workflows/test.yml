@@ -1,1 +1,31 @@
+# I WANT to create a GitHub Action that will follow best practices by running test cases when a Pull Request is made to the develop branch
+
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: npm install
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: '6.0'
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests
+        run: npm run test-component
+
 
